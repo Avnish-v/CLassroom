@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" href="../img/favicon.jpg" type="image/x-icon" />
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Document</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+	</head>
+	<body>
+		<a href="adding" class="adduser"
+			><i class="fa fa-plus-square" aria-hidden="true"></i
+		></a>
+		<div class="signout">
+			<a href="sign-out" class="sign"
+				><i class="fa fa-sign-out" aria-hidden="true"></i>
+			</a>
+		</div>
+
+		<div class="container">
+			<h1>File Upload</h1>
+			<form id="form" enctype="multipart/form-data" method="post" action="new">
+				<div class="input-group">
+					<label for="name">subject <b class="main">*</b></label>
+					<input name="subject" id="name" placeholder="subject" required />
+				</div>
+				<div class="input-group">
+					<label for="title">title <b class="main">*</b></label>
+					<input name="title" id="name" placeholder="title" required />
+				</div>
+				<div class="input-group">
+					<label for="files">Select files <b class="main">*</b></label>
+					<input id="files" type="file" name="file" required multiple />
+				</div>
+				<button class="submit-btn" type="submit">Upload</button>
+			</form>
+		</div>
+		<!-- <script>
+			const form = document.getElementById("form");
+
+			form.addEventListener("submit", submitForm);
+
+			function submitForm(e) {
+				e.preventDefault();
+				const name = document.getElementById("name");
+				const files = document.getElementById("files");
+				const formData = new FormData();
+				formData.append("name", name.value);
+				for (let i = 0; i < files.files.length; i++) {
+					formData.append("files", files.files[i]);
+				}
+				fetch("http://localhost:5000/upload_files", {
+					method: "post",
+					body: formData,
+				})
+					.then(res => console.log(res))
+					.catch(err => ("Error occured", err));
+			}
+		</script> -->
+	</body>
+</html>
