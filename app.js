@@ -2,6 +2,7 @@
 const port = 80;
 const mongoose = require("mongoose");
 const newsmodel = require("./db/schema");
+// import material from "./db/schema";
 const jwt = require("jsonwebtoken");
 const express = require("express");
 const app = express();
@@ -32,11 +33,8 @@ const storageMulter = multer.diskStorage({
 	filename: (req, file, cb) => {
 		const ext = path.extname(file.originalname);
 		const id = uuid();
-
 		const filepath = `${id}${ext}`;
-		newsmodel.create({ filepath }).then(() => {
-			cb(null, filepath);
-		});
+		cb(null, filepath);
 	},
 });
 const upload = multer({ storage: storageMulter });
@@ -67,7 +65,7 @@ app.get("/changepassword", (req, res) => {
 	res.render("changepassword");
 });
 app.get("/images", async (req, res) => {
-	await newsmodel.find().then(images => {
+	await newsmodel.find({}).then(images => {
 		return res.json({ status: "ok", images });
 	});
 });
@@ -124,6 +122,7 @@ app.post("/new", upload.single("file"), async (req, res) => {
 		title: req.body.title,
 		subject: req.body.subject,
 		img: req.file.path,
+		description: req.body.desc,
 	};
 	try {
 		await newsmodel.create({ blog }).then(() => {
