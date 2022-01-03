@@ -6,7 +6,7 @@ const newsmodel = require("./db/schema");
 
 const express = require("express");
 const app = express();
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
 const uuid = require("uuid").v4;
 const { RSA_NO_PADDING } = require("constants");
 const path = require("path");
@@ -143,7 +143,9 @@ app.post("/new", upload.single("file"), async (req, res) => {
 	};
 	try {
 		await newsmodel.create({ blog }).then(() => {
-			res.render("teacher");
+			// res.send("uploaded successfully");
+
+			res.redirect("/");
 		});
 	} catch (error) {
 		res.send(error);
