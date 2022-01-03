@@ -1,0 +1,44 @@
+* {
+	transition: all 0.6s;
+}
+
+body {
+	font-family: "Lato", sans-serif;
+	color: rgb(14, 13, 13);
+	margin: 0;
+}
+
+#main {
+	display: block;
+	margin: 20px auto;
+	background: rgb(139, 139, 139);
+	display: table;
+	width: 30%;
+	height: 30vh;
+	text-align: center;
+	align-items: center;
+}
+
+.fof {
+	display: table-cell;
+	vertical-align: middle;
+}
+.fof a {
+	text-decoration: none;
+	color: black;
+}
+.fof h1 {
+	font-size: 50px;
+	display: inline-block;
+	padding-right: 10px;
+	animation: type 0.5s alternate infinite;
+}
+
+@keyframes type {
+	from {
+		box-shadow: inset -3px 0px 0px rgb(12, 12, 12);
+	}
+	to {
+		box-shadow: inset -3px 0px 0px transparent;
+	}
+}

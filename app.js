@@ -3,13 +3,14 @@ const port = 80;
 const mongoose = require("mongoose");
 const newsmodel = require("./db/schema");
 // import material from "./db/schema";
-const jwt = require("jsonwebtoken");
+
 const express = require("express");
 const app = express();
 const bcrypt = require("bcryptjs");
 const uuid = require("uuid").v4;
 const { RSA_NO_PADDING } = require("constants");
 const path = require("path");
+
 const bodyparser = require("body-parser");
 const multer = require("multer");
 const { render } = require("ejs");
@@ -18,6 +19,7 @@ mongoose.connect("mongodb://localhost:27017/nktclassroom", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const db = mongoose.connection;
@@ -98,14 +100,14 @@ app.post("/", async (req, res) => {
 			find.email === email &&
 			find.password === password
 		) {
-			res.render("teacher");
+			res.render("teacher", { news: email });
 		} else if (find.email === email && find.password === password) {
-			res.render("student");
+			res.render("student", { myVar: email });
 		} else {
 			res.send("incorrect details....");
 		}
 	} catch (error) {
-		res.send("everything is wrong");
+		res.send("something went wrong...");
 	}
 });
 //* this can be use in future to get entry of new teachers
@@ -118,11 +120,26 @@ app.post("/", async (req, res) => {
 // });
 
 app.post("/new", upload.single("file"), async (req, res) => {
+	var currentdate = new Date();
+	var datetime =
+		"date: " +
+		currentdate.getDate() +
+		"/" +
+		currentdate.getMonth() +
+		"/" +
+		currentdate.getFullYear() +
+		" @ " +
+		currentdate.getHours() +
+		":" +
+		currentdate.getMinutes() +
+		":" +
+		currentdate.getSeconds();
 	let blog = {
 		title: req.body.title,
 		subject: req.body.subject,
 		img: req.file.path,
 		description: req.body.desc,
+		date: datetime,
 	};
 	try {
 		await newsmodel.create({ blog }).then(() => {
@@ -153,6 +170,10 @@ app.post("/adding", async (req, res) => {
 	} catch (error) {
 		res.send(error + "this the error");
 	}
+});
+
+app.use((req, res) => {
+	res.status(404).render("four04");
 });
 // * listening to the port
 app.listen(port, () => {
