@@ -10,7 +10,7 @@ const app = express();
 const uuid = require("uuid").v4;
 const { RSA_NO_PADDING } = require("constants");
 const path = require("path");
-
+// const cors = require("cors");
 const bodyparser = require("body-parser");
 const multer = require("multer");
 const { render } = require("ejs");
@@ -104,14 +104,14 @@ app.post("/", async (req, res) => {
 		} else if (find.email === email && find.password === password) {
 			res.render("student", { myVar: email });
 		} else {
-			res.send("incorrect details....");
+			res.render("login", { params: true });
 		}
 	} catch (error) {
 		res.send("something went wrong...");
 	}
 });
-//* this can be use in future to get entry of new teachers
-//can be use in future for adding teachers..........
+// //* this can be use in future to get entry of new teachers
+// //can be use in future for adding teachers..........
 // app.post("/", async (req, res) => {
 // 	var mydata = new newsmodel(req.body);
 // 	mydata.save().then(() => {
@@ -134,6 +134,8 @@ app.post("/new", upload.single("file"), async (req, res) => {
 		currentdate.getMinutes() +
 		":" +
 		currentdate.getSeconds();
+	let subval = newsmodel.find({ subject: req.body.subject });
+
 	let blog = {
 		title: req.body.title,
 		subject: req.body.subject,
@@ -141,14 +143,14 @@ app.post("/new", upload.single("file"), async (req, res) => {
 		description: req.body.desc,
 		date: datetime,
 	};
-	try {
-		await newsmodel.create({ blog }).then(() => {
-			// res.send("uploaded successfully");
 
-			res.redirect("/");
+	try {
+		var params;
+		await newsmodel.create({ blog }).then(() => {
+			res.render("teacher");
 		});
 	} catch (error) {
-		res.send(error);
+		res.send("something is wrong");
 	}
 });
 app.post("/adding", async (req, res) => {

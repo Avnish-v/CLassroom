@@ -1,81 +1,50 @@
-async function fetcher() {
-	let responses = await fetch("http://localhost/images");
-	responses = await responses.json();
-	return responses;
-}
-var subcopy = ""; // empty string
-const response = async () => {
-	const responses = await fetcher(); //fetcher is the function for fetching db
+// const { json } = require("body-parser");
 
-	const subhtml = document.getElementById("subject");
-	var html = ""; //empty html
-	responses.images.forEach(element => {
-		//for each to iterate the json
-
-		if (element.blog && element.blog.subject) {
-			var data = element.blog; //data is an object having details about subject,content and desc..
-			let src = "/img/designbig.jpg";
-			let location = data.img;
-			let newval = data.subject;
-			if (newval.value != data.subject) {
-				let news = `<div  class="d-flex flex-row flex-wrap justify-content-lg-around">
-<div class="card m-4 " id = "cardry" style="width:15rem;">
-<embed src=${src} type="" class = "d-flex flex-row flex-wrap justify-content-lg-around">
-<div class="card-body">
-<h5 class="card-title subject" id = "subjective">${data.subject}</h5>
-<input type="text" name="" id="val" style="display: none;">
-<p class="card-text">${data.description}</p>
-<a class="btn btn-danger click" id = "helloworld">click</a>
-</div>
-</div>
-</div>`;
-				html += news;
-
-				subcopy = data.subject;
-			}
-		}
-
-		subhtml.innerHTML = html;
-	});
+const functionFetch = async () => {
+	var response = await fetch("http://localhost/images");
+	response = await response.json();
+	return response.images;
 };
-// function change(value) {
-// 	console.log(value);
-// 	let cards = document.getElementById("img").removeAttributeNode;
-// 	let card = document.getElementById("cardry");
-// 	card.style.backgroundColor = `${value}`;
+var html = " ";
+let empty = "";
+// var condition = async()=>{
+// 	let response = await functionFetch();
+// 	response.forEach(element => {
+// 		let data = element.blog;
+
+// 	});
+
 // }
-
-window.onload = response;
-let clicks = document.getElementById("subject");
-clicks.addEventListener("click", async keys => {
-	let news = document.getElementById("span");
-	news.style.display = "none";
-	var subject = document.getElementById("subjective").innertext;
-	console.log("subject-:", subcopy);
-	newres();
-});
-let divas = document.getElementById("divas");
-var display = "";
-const newres = async () => {
-	const letres = await fetcher();
-	let vlog = letres.images;
-	vlog.forEach(element => {
-		let fresh = element.blog;
-		if (fresh != undefined) {
-			if (fresh.subject == fresh.subject) {
-				var puthtml = `<div class="card" style="width: 18rem;">
-<img src=${fresh.img} class="card-img-top" alt="...">
+async function populate() {
+	const response = await functionFetch();
+	response.forEach(element => {
+		if (element.blog) {
+			let filterData = element.blog;
+			param = filterData.subject;
+			let BgSrc = "/img/designbig.jpg";
+			var DYHtml = `<div  class="d-flex flex-row flex-wrap justify-content-lg-around" id= "hide">
+<div class="card m-4 " id = "cardry" style="width:15rem;">
+<embed src=${BgSrc} type="" class = "d-flex flex-row flex-wrap justify-content-lg-around">
 <div class="card-body">
-<h6 class = "card-title">${fresh.date}</h6>
-  <p class="card-text">${fresh.description}</p>
+<h5 class="card-title subject" id = "subjective" )">${filterData.subject}</h5>
+<input type="text" name="" id="val" style="display: none;">
+<p class="card-text">${filterData.description}</p>
+<a class="btn btn-danger click" id = "helloworld" onclick="getdata('${param}')">click</a>
+</div>
 </div>
 </div>`;
-			}
 		}
-		display += puthtml;
+		html += DYHtml;
 	});
-	let divas = document.getElementById("divas");
-	divas.innerHTML = display;
-};
 
-// event();
+	var Blankhtml = document.getElementById("subject");
+	Blankhtml.innerHTML = html;
+}
+window.onload = populate;
+
+//problem in code
+/*
+1.jo dynamically html h  usme ka subjective isme accessable nhi h agar wo access hota h toh direct value mil sakte h... (shyad)
+2. we have to sort the data according to the onclick event
+3. we have to stop showing the duplicate subject in frontened.........
+*/
